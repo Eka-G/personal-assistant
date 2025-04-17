@@ -1,17 +1,25 @@
-<script setup>
-import PCHeader from '@/components/PCHeader.vue';
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/img/logo.svg" width="219" />
+  <PCHeader />
 
-    <div class="wrapper">
-      <PCHeader msg="You did it!" />
-    </div>
-  </header>
+  <main>
+    <PCContentWrapper></PCContentWrapper>
+  </main>
 
-  <main></main>
+  <PCFooter :locales="locales" />
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+import PCHeader from '@/components/PCHeader.vue';
+import PCContentWrapper from '@/components/PCContentWrapper.vue';
+import PCFooter from '@/components/PCFooter.vue';
+
+const locales = ref([
+  { name: 'RU', isActive: true },
+  { name: 'EN', isActive: false },
+  { name: 'TUR', isActive: false },
+]);
+</script>
 
 <style scoped></style>

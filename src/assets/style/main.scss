@@ -6,13 +6,11 @@
 *::after {
   box-sizing: border-box;
   margin: 0;
-  font-weight: normal;
 }
 
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  color: var(--pc-c-primary-font-color);
+  background: var(--pc-c-secondary-background);
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -22,20 +20,30 @@ body {
 }
 
 #app {
-  max-width: 1200px;
-  margin: 0 auto;
-  font-weight: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 100vh;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+
+  &:hover {
+    color: var(--pc-c-primary-color);
+  }
 }
 
 button {
   border: none;
   background: transparent;
   cursor: pointer;
+}
+
+ul {
+  padding: 0;
 }
 
 li {
