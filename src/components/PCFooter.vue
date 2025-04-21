@@ -30,8 +30,8 @@
         </div>
 
         <div class="footer__socials">
-          <img alt="Telegram" src="@/assets/img/telegram.svg" width="24" height="24" />
-          <img alt="WhatsApp" src="@/assets/img/whats-app.svg" width="24" height="24" />
+          <img alt="Telegram" src="@/assets/img/telegram.svg" width="40" height="40" />
+          <img alt="WhatsApp" src="@/assets/img/whats-app.svg" width="40" height="40" />
         </div>
       </div>
     </PCContentWrapper>
@@ -121,7 +121,7 @@ defineProps({
   .footer {
     padding: 33px 0;
     font-size: 15px;
-    background-color: var(--pc-c-secondary-background);
+    background-color: var(--pc-c-elements-background);
 
     &__wrapper {
       grid-template-areas:
@@ -133,6 +133,10 @@ defineProps({
     &__logo {
       width: 209px;
       height: 28px;
+    }
+
+    &__confidentiality {
+      align-self: end;
     }
   }
 }
@@ -146,6 +150,10 @@ defineProps({
 
     &__wrapper {
       grid-template-areas: 'logo confidentiality contacts languages socials';
+    }
+
+    &__confidentiality {
+      align-self: center;
     }
   }
 }

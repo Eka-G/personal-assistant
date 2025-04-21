@@ -49,7 +49,7 @@ import PCContentWrapper from '@/components/PCContentWrapper.vue';
 
 <style lang="scss">
 .header {
-  padding: 28px 20px 20px;
+  padding: 28px 20px 10px 20px;
   font-size: 14px;
   background-color: var(--pc-c-primary-background);
 
@@ -61,7 +61,6 @@ import PCContentWrapper from '@/components/PCContentWrapper.vue';
 
   &__nav,
   &__nav-list {
-    font-weight: 500;
     width: 100%;
   }
 
@@ -91,6 +90,10 @@ import PCContentWrapper from '@/components/PCContentWrapper.vue';
 
   &__convert-text {
     color: var(--pc-c-secondary-font-color);
+  }
+
+  &__user-text {
+    font-weight: 550;
   }
 
   &__hidden-text {
@@ -151,6 +154,7 @@ import PCContentWrapper from '@/components/PCContentWrapper.vue';
 
     &__info {
       flex-direction: row;
+      font-weight: 550;
     }
 
     &__convert {

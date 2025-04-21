@@ -6,6 +6,7 @@
 *::after {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
 body {
@@ -25,6 +26,16 @@ body {
   justify-content: space-between;
   width: 100%;
   min-height: 100vh;
+}
+
+main {
+  display: flex;
+  align-items: start;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 550;
 }
 
 a {
@@ -75,5 +86,11 @@ input {
 
   &:focus-visible {
     outline: unset;
+  }
+}
+
+@media (min-width: 768px) {
+  h2 {
+    font-size: 24px;
   }
 }

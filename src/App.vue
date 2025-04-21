@@ -2,7 +2,7 @@
   <PCHeader />
 
   <main>
-    <PCContentWrapper></PCContentWrapper>
+    <PCMainContent />
   </main>
 
   <PCFooter :locales="locales" />
@@ -12,7 +12,7 @@
 import { ref } from 'vue';
 
 import PCHeader from '@/components/PCHeader.vue';
-import PCContentWrapper from '@/components/PCContentWrapper.vue';
+import PCMainContent from '@/components/PCMainContent.vue';
 import PCFooter from '@/components/PCFooter.vue';
 
 const locales = ref([

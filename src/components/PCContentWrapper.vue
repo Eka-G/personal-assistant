@@ -8,7 +8,7 @@
 .wrapper {
   margin: 0 auto;
   padding: 0;
-  max-width: 100%;
+  width: 100%;
 
   @media (min-width: 768px) {
     padding: 0 40px;
