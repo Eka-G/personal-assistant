@@ -4,7 +4,7 @@
 
     <section class="file-organizer__wrapper">
       <h2>Файлы</h2>
-      <div class="file-organizer__tip">
+      <div v-if="isFileListEmpty" class="file-organizer__tip">
         <img
           alt="папка с файлами"
           class="file-organizer__hero-img"
@@ -17,12 +17,35 @@
           Закажи у личного помощника медиаплан. Он появится в этом разделе
         </p>
       </div>
+
+      <div v-if="!isFileListEmpty" class="file-organizer__lists">
+        <PCFileList
+          :list="filesStore.mediaplans"
+          :text="FILES_SECTION_TEXT.forMediaplans"
+          :recent-file="filesStore.resentMediaplan"
+        />
+        <PCFileList
+          :list="filesStore.reports"
+          :text="FILES_SECTION_TEXT.forReports"
+          :recent-file="filesStore.resentReport"
+        />
+      </div>
     </section>
   </div>
 </template>
 
 <script setup>
 import PCFileOrganizerButtons from '@/components/PCFileOrganizerButtons.vue';
+import PCFileList from '@/components/PCFileList.vue';
+import { FILES_SECTION_TEXT } from '@/shared/constants';
+import { useFilesStore } from '@/store/files';
+import { computed } from 'vue';
+
+const filesStore = useFilesStore();
+
+const isFileListEmpty = computed(
+  () => !(filesStore.mediaplans?.length || filesStore.reports?.length)
+);
 </script>
 
 <style lang="scss">
@@ -49,6 +72,12 @@ import PCFileOrganizerButtons from '@/components/PCFileOrganizerButtons.vue';
       align-items: center;
       max-width: 522px;
     }
+
+    &__lists {
+      display: grid;
+      grid-template: 1fr / 1fr 1fr;
+      column-gap: 20px;
+    }
   }
 }
 
@@ -70,6 +99,12 @@ import PCFileOrganizerButtons from '@/components/PCFileOrganizerButtons.vue';
     &__hero-img {
       width: 256px;
       height: 314px;
+    }
+
+    &__lists {
+      display: grid;
+      grid-template: auto auto / 295px;
+      row-gap: 30px;
     }
   }
 }

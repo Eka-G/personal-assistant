@@ -43,7 +43,7 @@ import PCContentWrapper from '@/components/PCContentWrapper.vue';
 
 defineProps({
   locales: {
-    type: [String],
+    type: Array,
     required: true,
   },
 });
