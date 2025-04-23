@@ -14,21 +14,33 @@ export const useFilesStore = defineStore('files', {
   },
 
   actions: {
-    async addResentFile(filesLength, resentFile, newName = 'Companyname') {
+    async addResentFile(type, newName = 'Companyname') {
+      const filesKey = type === 'mediaplan' ? 'mediaplans' : 'reports';
+      const resentKey = type === 'mediaplan' ? 'resentMediaplan' : 'resentReport';
+      const date = formatDate();
+      let filesLength = this[filesKey]?.length || 0;
+
+      if (this[resentKey]) {
+        this[filesKey] = [...this[filesKey], this[resentKey]];
+        filesLength += 1;
+      }
+
       const name = `${newName} ${filesLength + 1}/${new Date().getFullYear() % 100}`;
       const newFile = {
-        id: filesLength,
+        id: filesLength + 1,
         name,
         text: null,
         isInProgress: true,
       };
 
       try {
-        resentFile = newFile;
+        this[resentKey] = newFile;
+
         await sendMockRequest();
-        resentFile = {
-          ...resentFile,
-          date: formatDate(),
+
+        this[resentKey] = {
+          ...this[resentKey],
+          date,
           text: MOCK_FILE_TEXT,
           isInProgress: false,
         };
@@ -38,11 +50,11 @@ export const useFilesStore = defineStore('files', {
     },
 
     async addResentMediaplan() {
-      await this.addFile(this.mediaplans.length, this.resentMediaplan);
+      await this.addResentFile('mediaplan');
     },
 
     async addResentReport() {
-      await this.addFile(this.reports.length, this.resentReport);
+      await this.addResentFile('report');
     },
   },
 });

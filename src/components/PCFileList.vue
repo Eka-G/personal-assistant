@@ -26,8 +26,14 @@
           <span>{{ recentFile.name }}</span>
         </div>
 
-        <button :class="recentFileParams.buttonClass">
-          <img :src="recentFileParams.icon" alt="скачать" width="24" height="24" />
+        <button :class="recentFileParams.buttonClass" :disabled="recentFileParams.isDisabled">
+          <img
+            alt="скачать"
+            width="24"
+            height="24"
+            :class="{ 'file-list__download-icon': props.recentFile?.isInProgress }"
+            :src="recentFileParams.icon"
+          />
         </button>
 
         <div class="file-list__resent-file-tip">
@@ -94,18 +100,20 @@ const toggleIconClass = computed(() =>
     : 'file-list__toggle-list-icon'
 );
 const recentFileParams = computed(() =>
-  props.recentFile.isInProgress
+  props.recentFile?.isInProgress
     ? {
         icon: loadingIcon,
         buttonClass: 'file-list__download-button file-list__download-button--loading',
         tipText: props.text.tipTextInProgress,
         tipIcon: attentionIcon,
+        isDisabled: true,
       }
     : {
         icon: downloadIcon,
         buttonClass: 'file-list__download-button',
         tipText: `${props.text.tipText} от ${props.recentFile.date} готов`,
         tipIcon: checkMarkIcon,
+        isDisabled: false,
       }
 );
 
@@ -186,6 +194,10 @@ const toggleList = () => {
 
     &__download-button--loading {
       background-color: var(--pc-c-gray);
+
+      & img {
+        animation: rotateAnimation 2s linear infinite;
+      }
     }
   }
 }

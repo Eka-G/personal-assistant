@@ -1,6 +1,15 @@
 @use './variables.scss';
 @use './normalize.scss';
 
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -14,6 +23,7 @@ body {
   background: var(--pc-c-secondary-background);
   transition:
     color 0.5s,
+    opacity 0.5s,
     background-color 0.5s;
   line-height: 1.6;
   font-family: 'Inter', sans-serif;

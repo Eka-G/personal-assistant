@@ -1,9 +1,9 @@
 <template>
   <div class="file-organizer">
-    <PCFileOrganizerButtons />
+    <PCFileOrganizerButtons :files-store="filesStore" />
 
     <section class="file-organizer__wrapper">
-      <h2>Файлы</h2>
+      <h2 class="file-organizer__title">Файлы</h2>
       <div v-if="isFileListEmpty" class="file-organizer__tip">
         <img
           alt="папка с файлами"
@@ -20,14 +20,14 @@
 
       <div v-if="!isFileListEmpty" class="file-organizer__lists">
         <PCFileList
-          :list="filesStore.mediaplans"
+          :list="mediaplans"
           :text="FILES_SECTION_TEXT.forMediaplans"
-          :recent-file="filesStore.resentMediaplan"
+          :recent-file="resentMediaplan"
         />
         <PCFileList
-          :list="filesStore.reports"
+          :list="reports"
           :text="FILES_SECTION_TEXT.forReports"
-          :recent-file="filesStore.resentReport"
+          :recent-file="resentReport"
         />
       </div>
     </section>
@@ -35,16 +35,25 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
+
 import PCFileOrganizerButtons from '@/components/PCFileOrganizerButtons.vue';
 import PCFileList from '@/components/PCFileList.vue';
 import { FILES_SECTION_TEXT } from '@/shared/constants';
 import { useFilesStore } from '@/store/files';
-import { computed } from 'vue';
 
 const filesStore = useFilesStore();
+const { mediaplans, reports, resentMediaplan, resentReport } = storeToRefs(filesStore);
 
 const isFileListEmpty = computed(
-  () => !(filesStore.mediaplans?.length || filesStore.reports?.length)
+  () =>
+    !(
+      mediaplans.value?.length ||
+      reports.value?.length ||
+      resentMediaplan.value ||
+      resentReport.value
+    )
 );
 </script>
 
@@ -65,6 +74,10 @@ const isFileListEmpty = computed(
       background-color: var(--pc-c-primary-background);
     }
 
+    &__title {
+      margin-bottom: 20px;
+    }
+
     &__tip {
       margin: 0 auto;
       display: flex;
@@ -83,10 +96,18 @@ const isFileListEmpty = computed(
 
 @media (min-width: 992px) {
   .file-organizer {
+    &__wrapper {
+      width: 293px;
+    }
+
     &__hero-img {
       margin-bottom: 30px;
       width: 261px;
       height: 413px;
+    }
+
+    &__title {
+      margin-bottom: 30px;
     }
 
     &__tip {
@@ -103,7 +124,7 @@ const isFileListEmpty = computed(
 
     &__lists {
       display: grid;
-      grid-template: auto auto / 295px;
+      grid-template: auto auto / 253px;
       row-gap: 30px;
     }
   }

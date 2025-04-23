@@ -1,24 +1,42 @@
 <template>
   <div class="file-organizer-buttons">
-    <button class="file-organizer-buttons__button file-organizer-buttons__mediaplans">
+    <button :class="mediaplanParams.class">
       Медиапланы
       <img
-        v-show="isMediaplanDone"
+        v-show="mediaplanParams.showDoneIcon"
         alt="готово"
         class="file-organizer-buttons__check-mark"
         src="@/assets/img/check-mark.svg"
         width="16"
         height="16"
       />
+
+      <img
+        v-show="mediaplanParams.showLoadingIcon"
+        alt="загрузка"
+        class="file-organizer-buttons__loading"
+        src="@/assets/img/loading.svg"
+        width="16"
+        height="16"
+      />
     </button>
 
-    <button class="file-organizer-buttons__button file-organizer-buttons__reports">
+    <button :class="reportParams.class">
       Отчеты
       <img
-        v-show="isReportDone"
+        v-show="reportParams.showDoneIcon"
         alt="готово"
         class="file-organizer-buttons__check-mark"
         src="@/assets/img/check-mark.svg"
+        width="16"
+        height="16"
+      />
+
+      <img
+        v-show="reportParams.showLoadingIcon"
+        alt="загрузка"
+        class="file-organizer-buttons__loading"
+        src="@/assets/img/loading.svg"
         width="16"
         height="16"
       />
@@ -27,10 +45,33 @@
 </template>
 
 <script setup>
-defineProps({
-  isMediaplanDone: Boolean,
-  isReportDone: Boolean,
+import { computed } from 'vue';
+
+const props = defineProps({
+  filesStore: Object,
 });
+
+const isListNotEmpty = computed(() => ({
+  mediaplans: props.filesStore.mediaplans?.length || props.filesStore.resentMediaplan,
+  reports: props.filesStore.reports?.length || props.filesStore.resentReport,
+}));
+
+const getFileListParams = (listType, resentType) => {
+  const resentFile = props.filesStore[resentType];
+  const fileList = props.filesStore[listType];
+
+  return {
+    isNotEmpty: fileList?.length || resentFile,
+    showDoneIcon: resentFile && !resentFile.isInProgress,
+    showLoadingIcon: resentFile?.isInProgress,
+    class: `file-organizer-buttons__button file-organizer-buttons__${listType} ${
+      isListNotEmpty.value[listType] ? `file-organizer-buttons__${listType}--not-empty` : ''
+    }`,
+  };
+};
+
+const mediaplanParams = computed(() => getFileListParams('mediaplans', 'resentMediaplan'));
+const reportParams = computed(() => getFileListParams('reports', 'resentReport'));
 </script>
 
 <style lang="scss">
@@ -65,6 +106,12 @@ defineProps({
 
   &__check-mark {
     margin-left: 10px;
+  }
+
+  &__loading {
+    margin-left: 10px;
+    filter: invert(50%);
+    animation: rotateAnimation 2s linear infinite;
   }
 }
 
