@@ -27,7 +27,7 @@ export const useFilesStore = defineStore('files', {
 
       const name = `${newName} ${filesLength + 1}/${new Date().getFullYear() % 100}`;
       const newFile = {
-        id: filesLength + 1,
+        id: Date.now(),
         name,
         text: null,
         isInProgress: true,
@@ -58,3 +58,20 @@ export const useFilesStore = defineStore('files', {
     },
   },
 });
+
+// Т.к. проект не на ts, оставлю подсказку типизации store на JSDoc
+/**
+ * @typedef {Object} File
+ * @property {number} id - Уникальный идентификатор файла
+ * @property {string} name - Название файла
+ * @property {string} text - Текстовое содержимое файла
+ * @property {boolean} isInProgress - Флаг, указывающий, находится ли файл в процессе загрузки
+ * @property {string} date - Дата создания файла в формате "дд.мм.гг"
+ */
+/**
+ * @typedef {Object} FilesState
+ * @property {File[]} mediaplans - Массив медиапланов
+ * @property {File|null} resentMediaplan - Последний добавленный медиаплан
+ * @property {File[]} reports - Массив отчетов
+ * @property {File|null} resentReport - Последний добавленный отчет
+ */
