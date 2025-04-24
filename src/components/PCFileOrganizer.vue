@@ -18,7 +18,7 @@
         </p>
       </div>
 
-      <div v-if="!isFileListEmpty" class="file-organizer__lists">
+      <div v-else class="file-organizer__lists">
         <PCFileList
           :list="mediaplans"
           :text="FILES_SECTION_TEXT.forMediaplans"

@@ -1,9 +1,11 @@
 <template>
   <div class="chat-input">
     <input
+      v-model="messageInput"
       type="text"
       class="chat-input__input"
       placeholder="Введите сообщение для администратора"
+      @keypress.enter="sendMessage"
     />
 
     <div class="chat-input__actions">
@@ -18,7 +20,7 @@
       </div>
 
       <div class="chat-input__enter-block">
-        <button class="chat-input__send-button">
+        <button class="chat-input__send-button" :disabled="isMessageSending" @click="sendMessage">
           <img src="@/assets/img/send.svg" alt="отправить" width="24" height="24" />
         </button>
         <span>Enter</span>
@@ -27,7 +29,27 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+import { useChatStore } from '@/store/chat';
+
+const chatStore = useChatStore();
+const messageInput = ref('');
+const isMessageSending = ref(false);
+
+const sendMessage = async () => {
+  const formattedMessage = messageInput.value.trim();
+
+  if (!formattedMessage) {
+    return;
+  }
+
+  messageInput.value = '';
+  isMessageSending.value = true;
+  await chatStore.sendMessage(formattedMessage);
+  isMessageSending.value = false;
+};
+</script>
 
 <style lang="scss">
 .chat-input {
@@ -39,12 +61,16 @@
   border-radius: 20px;
   background-color: var(--pc-c-primary-background);
 
-  &--active {
-    border: 2px solid var(--pc-c-primary-color);
+  &:focus-within {
+    outline: 2px solid var(--pc-c-primary-color);
   }
 
   &__input {
     width: 100%;
+
+    &:focus::placeholder {
+      color: transparent;
+    }
   }
 
   &__actions {

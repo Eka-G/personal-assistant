@@ -27,11 +27,11 @@ const filesStore = useFilesStore();
 const isMediaplanOrderDisabaled = computed(() => filesStore.resentMediaplan?.isInProgress);
 const isReportOrderDisabaled = computed(() => filesStore.resentReport?.isInProgress);
 
-const handleMediaplanOrder = () => {
-  filesStore.addResentMediaplan();
+const handleMediaplanOrder = async () => {
+  await filesStore.addResentMediaplan();
 };
-const handleReportOrder = () => {
-  filesStore.addResentReport();
+const handleReportOrder = async () => {
+  await filesStore.addResentReport();
 };
 </script>
 
@@ -49,10 +49,6 @@ const handleReportOrder = () => {
     color: var(--pc-c-elemens-font-color);
     border-radius: 21px;
     background-color: var(--pc-c-primary-color);
-
-    &:disabled {
-      opacity: 45%;
-    }
   }
 
   &__report-button {

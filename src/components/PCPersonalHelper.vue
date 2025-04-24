@@ -17,7 +17,7 @@
 
     <div class="personal-helper__chat">
       <div class="personal-helper__chat-container">
-        <div class="personal-helper__chat-plug">
+        <div v-if="!chatStore.messages.length" class="personal-helper__chat-plug">
           <img
             class="personal-helper__img"
             src="@/assets/img/chat-img.svg"
@@ -31,6 +31,10 @@
           </p>
         </div>
 
+        <ul v-else class="personal-helper__chat">
+          <PCMessage v-for="message in chatStore.messages" :message="message" :key="message.id" />
+        </ul>
+
         <PCOrderButtons />
       </div>
       <div class="personal-helper__input-container">
@@ -43,6 +47,10 @@
 <script setup>
 import PCOrderButtons from '@/components/PCOrderButtons.vue';
 import PCChatInput from '@/components/PCChatInput.vue';
+import PCMessage from '@/components/PCMessage.vue';
+import { useChatStore } from '@/store/chat';
+
+const chatStore = useChatStore();
 </script>
 
 <style lang="scss">
