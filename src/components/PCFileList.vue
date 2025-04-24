@@ -1,5 +1,5 @@
 <template>
-  <div class="file-list-wrapper">
+  <div class="file-list__wrapper">
     <div class="file-list__header">
       <h3 class="file-list__title">{{ text.title }}</h3>
       <button @click="toggleList">
@@ -134,6 +134,11 @@ const toggleList = () => {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    &__title {
+      font-weight: 550;
+      font-size: 18px;
     }
 
     &__toggle-list-icon--rotated {

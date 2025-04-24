@@ -3,7 +3,7 @@
     <PCFileOrganizerButtons :files-store="filesStore" />
 
     <section class="file-organizer__wrapper">
-      <h2 class="file-organizer__title">Файлы</h2>
+      <h2 :class="titleClass">Файлы</h2>
       <div v-if="isFileListEmpty" class="file-organizer__tip">
         <img
           alt="папка с файлами"
@@ -55,6 +55,12 @@ const isFileListEmpty = computed(
       resentReport.value
     )
 );
+
+const titleClass = computed(() =>
+  isFileListEmpty.value
+    ? 'file-organizer__title file-organizer__title--empty'
+    : 'file-organizer__title'
+);
 </script>
 
 <style lang="scss">
@@ -67,15 +73,20 @@ const isFileListEmpty = computed(
 @media (min-width: 768px) {
   .file-organizer {
     &__wrapper {
-      padding: 30px 20px;
+      padding: 30px 0;
       display: block;
-      height: 100%;
+      height: 405px;
       border-radius: 20px;
       background-color: var(--pc-c-primary-background);
     }
 
     &__title {
-      margin-bottom: 20px;
+      margin: 0 0 20px 20px;
+      line-height: 1;
+
+      &--empty {
+        margin: 0 0 0 20px;
+      }
     }
 
     &__tip {
@@ -87,9 +98,35 @@ const isFileListEmpty = computed(
     }
 
     &__lists {
+      padding: 0 20px;
       display: grid;
       grid-template: 1fr / 1fr 1fr;
       column-gap: 20px;
+
+      max-height: 315px;
+      overflow-x: scroll;
+      overflow-anchor: none;
+      scrollbar-width: 6px;
+      scrollbar-color: var(--pc-c-elements-background);
+
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-track,
+      &::-webkit-scrollbar-corner {
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 54px;
+        background-color: var(--pc-c-dark-gray);
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 }
@@ -97,11 +134,12 @@ const isFileListEmpty = computed(
 @media (min-width: 992px) {
   .file-organizer {
     &__wrapper {
-      width: 293px;
+      width: 300px;
+      height: 100%;
     }
 
     &__hero-img {
-      margin-bottom: 30px;
+      margin: 0 30px 0 20px;
       width: 261px;
       height: 413px;
     }
@@ -126,6 +164,8 @@ const isFileListEmpty = computed(
       display: grid;
       grid-template: auto auto / 253px;
       row-gap: 30px;
+      justify-content: center;
+      max-height: 572px;
     }
   }
 }

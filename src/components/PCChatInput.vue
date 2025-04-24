@@ -20,7 +20,7 @@
       </div>
 
       <div class="chat-input__enter-block">
-        <button class="chat-input__send-button" :disabled="isMessageSending" @click="sendMessage">
+        <button class="chat-input__send-button" @click="sendMessage">
           <img src="@/assets/img/send.svg" alt="отправить" width="24" height="24" />
         </button>
         <span>Enter</span>
@@ -35,7 +35,6 @@ import { useChatStore } from '@/store/chat';
 
 const chatStore = useChatStore();
 const messageInput = ref('');
-const isMessageSending = ref(false);
 
 const sendMessage = async () => {
   const formattedMessage = messageInput.value.trim();
@@ -45,9 +44,7 @@ const sendMessage = async () => {
   }
 
   messageInput.value = '';
-  isMessageSending.value = true;
   await chatStore.sendMessage(formattedMessage);
-  isMessageSending.value = false;
 };
 </script>
 

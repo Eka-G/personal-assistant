@@ -31,11 +31,11 @@
           </p>
         </div>
 
-        <ul v-else class="personal-helper__chat">
+        <ul v-else class="personal-helper__chat-list">
           <PCMessage v-for="message in chatStore.messages" :message="message" :key="message.id" />
         </ul>
 
-        <PCOrderButtons />
+        <PCOrderButtons class="personal-helper__order-buttons" />
       </div>
       <div class="personal-helper__input-container">
         <PCChatInput />
@@ -75,6 +75,7 @@ const chatStore = useChatStore();
 
   &__title {
     grid-area: title;
+    line-height: 1;
   }
 
   &__menu {
@@ -106,18 +107,47 @@ const chatStore = useChatStore();
 
   //chat
   &__chat {
+    padding: 30px 20px 37px 20px;
     background-color: var(--pc-c-elements-background);
   }
 
   &__chat-container {
-    padding: 50px 20px 20px 20px;
+    margin-bottom: 16px;
+    padding-right: 16px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-grow: 1;
+
+    min-height: 431px;
+    max-height: 500px;
+    overflow-x: scroll;
+    overflow-anchor: none;
+    scrollbar-width: 6px;
+    scrollbar-color: var(--pc-c-elements-background);
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-corner {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 54px;
+      background-color: var(--pc-c-dark-gray);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   &__chat-plug {
+    margin: 20px 0 63px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -131,10 +161,6 @@ const chatStore = useChatStore();
   &__hint {
     max-width: 270px;
     text-align: center;
-  }
-
-  &__input-container {
-    padding: 0 20px 30px 20px;
   }
 }
 
@@ -152,12 +178,24 @@ const chatStore = useChatStore();
     }
 
     &__chat {
+      padding: 0;
       border-radius: 20px;
     }
 
     &__chat-container {
-      padding: 55px 20px 20px 20px;
+      margin: 50px 0 0 0;
+      min-height: unset;
+      max-height: unset;
+      height: 400px;
       border-radius: 20px;
+    }
+
+    &__chat-list {
+      margin: 0 20px;
+    }
+
+    &__chat-plug {
+      margin-top: 0;
     }
 
     &__img {
@@ -169,15 +207,20 @@ const chatStore = useChatStore();
       max-width: 364px;
     }
 
-    &__input-container {
-      padding: 0;
+    &__order-buttons {
+      margin: 0 0 14px 20px;
     }
   }
 }
 
 @media (min-width: 992px) {
   .personal-helper {
+    &__chat-plug {
+      margin-bottom: 57px;
+    }
+
     &__img {
+      margin-top: 0;
       width: 190px;
       height: 193px;
     }
@@ -187,7 +230,9 @@ const chatStore = useChatStore();
     }
 
     &__chat-container {
-      padding: 50px 20px 20px 20px;
+      min-height: unset;
+      max-height: unset;
+      height: 383px;
     }
   }
 }

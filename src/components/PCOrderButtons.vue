@@ -37,7 +37,6 @@ const handleReportOrder = async () => {
 
 <style lang="scss">
 .order-buttons {
-  margin: 20px 16px 0 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
