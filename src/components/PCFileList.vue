@@ -42,7 +42,7 @@
         </div>
       </li>
 
-      <li class="file-list__file" :key="file.id" v-for="file in list">
+      <li class="file-list__file" :key="file.id" v-for="file in visibleItems">
         <div class="file-list__file-name">
           <img
             src="@/assets/img/xml-folder.svg"
@@ -64,12 +64,16 @@
           />
         </button>
       </li>
+
+      <li v-if="showMoreButtonVisible" class="file-list__show-more">
+        <button class="file-list__show-more-button" @click="showMoreItems">Показать еще</button>
+      </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import loadingIcon from '@/assets/img/loading.svg';
 import downloadIcon from '@/assets/img/arrow-down.svg';
@@ -90,10 +94,23 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  itemsPerPage: {
+    type: Number,
+    default: 3,
+  },
 });
 
 const isListExpanded = ref(true);
+const visibleItems = ref([]);
 
+const reversedList = computed(() => {
+  if (!props.list || !Array.isArray(props.list)) {
+    return [];
+  }
+
+  return [...props.list].reverse();
+});
+const showMoreButtonVisible = computed(() => visibleItems.value.length < reversedList.value.length);
 const toggleIconClass = computed(() =>
   isListExpanded.value
     ? 'file-list__toggle-list-icon file-list__toggle-list-icon--rotated'
@@ -120,6 +137,29 @@ const recentFileParams = computed(() =>
 const toggleList = () => {
   isListExpanded.value = !isListExpanded.value;
 };
+
+const initializeVisibleItems = () => {
+  if (!reversedList.value || !Array.isArray(reversedList.value)) return;
+  visibleItems.value = reversedList.value.slice(0, props.itemsPerPage);
+};
+
+const showMoreItems = () => {
+  if (!reversedList.value || !Array.isArray(reversedList.value)) return;
+
+  const nextItems = reversedList.value.slice(
+    visibleItems.value.length,
+    visibleItems.value.length + props.itemsPerPage
+  );
+  visibleItems.value = [...visibleItems.value, ...nextItems];
+};
+
+watch(
+  () => props.list,
+  () => {
+    initializeVisibleItems(); // Перезапускаем инициализацию при изменении списка
+  },
+  { immediate: true } // Инициализация происходит сразу при монтировании
+);
 </script>
 
 <style lang="scss" scoped>
@@ -147,7 +187,7 @@ const toggleList = () => {
 
     &__resent-file {
       position: relative;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
     &__resent-file-tip {
@@ -155,7 +195,7 @@ const toggleList = () => {
       display: flex;
       align-items: center;
       left: 0;
-      top: 54px;
+      top: 48px;
       font-size: 12px;
       line-height: normal;
       color: var(--pc-c-secondary-font-color);
@@ -171,6 +211,7 @@ const toggleList = () => {
       align-items: center;
       border-radius: 4px;
       background-color: var(--pc-c-secondary-background);
+      width: 100%;
     }
 
     &__file-icon {
@@ -181,7 +222,14 @@ const toggleList = () => {
       padding: 9px 20px 9px 9px;
       display: flex;
       align-items: center;
-      width: -webkit-fill-available;
+      min-width: 0;
+
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
     }
 
     &__download-button,
@@ -194,6 +242,7 @@ const toggleList = () => {
     }
 
     &__download-button {
+      flex-shrink: 0;
       background-color: var(--pc-c-elements-color);
     }
 
@@ -202,6 +251,31 @@ const toggleList = () => {
 
       & img {
         animation: rotateAnimation 2s linear infinite;
+      }
+    }
+
+    &__show-more {
+      display: inline-flex;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    &__show-more-button {
+      font-size: 15px;
+      color: var(--pc-c-primary-color);
+
+      &:hover {
+        color: var(--pc-c-accent-color);
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .file-list {
+    &__file-name {
+      span {
+        max-width: 146px;
       }
     }
   }

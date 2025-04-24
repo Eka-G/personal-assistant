@@ -28,6 +28,7 @@
           :list="reports"
           :text="FILES_SECTION_TEXT.forReports"
           :recent-file="resentReport"
+          :items-per-page="2"
         />
       </div>
     </section>
