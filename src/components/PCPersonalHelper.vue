@@ -3,10 +3,18 @@
     <div class="personal-helper__header">
       <h2 class="personal-helper__title">Личный помощник</h2>
 
-      <div class="personal-helper__menu">
-        <button class="personal-helper__menu">
+      <div class="personal-helper__menu" ref="menuWrapper">
+        <button class="personal-helper__menu" @click="toggleMenu">
           <img src="@/assets/img/dots.svg" alt="меню" height="20px" />
         </button>
+        <ul v-show="isMenuVisible" class="personal-helper__menu-list">
+          <li class="personal-helper__menu-item">
+            <a href="#" @click="toggleMenu">Обратная связь о работе сервиса</a>
+          </li>
+          <li class="personal-helper__menu-item">
+            <a href="#" @click="toggleMenu">Сменить помощника</a>
+          </li>
+        </ul>
       </div>
 
       <div class="personal-helper__user">
@@ -45,12 +53,34 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 import PCOrderButtons from '@/components/PCOrderButtons.vue';
 import PCChatInput from '@/components/PCChatInput.vue';
 import PCMessage from '@/components/PCMessage.vue';
 import { useChatStore } from '@/store/chat';
 
 const chatStore = useChatStore();
+
+const isMenuVisible = ref(false);
+const menuWrapper = ref(null);
+
+const toggleMenu = () => {
+  isMenuVisible.value = !isMenuVisible.value;
+};
+
+const handleClickOutside = (event) => {
+  if (isMenuVisible.value && menuWrapper.value && !menuWrapper.value.contains(event.target)) {
+    isMenuVisible.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
 
 <style lang="scss">
@@ -79,6 +109,7 @@ const chatStore = useChatStore();
   }
 
   &__menu {
+    position: relative;
     grid-area: menu;
     display: flex;
     justify-content: flex-end;
@@ -92,6 +123,22 @@ const chatStore = useChatStore();
       border-radius: 50%;
       background-color: var(--pc-c-secondary-background);
     }
+  }
+
+  &__menu-list {
+    position: absolute;
+    padding: 10px 20px;
+    width: max-content;
+    top: 48px;
+    right: 0;
+    text-align: right;
+    border-radius: 8px;
+    background-color: var(--pc-c-primary-background);
+  }
+
+  &__menu-item:not(:last-child) {
+    margin-bottom: 12px;
+    font-weight: 500;
   }
 
   &__user {
@@ -175,6 +222,11 @@ const chatStore = useChatStore();
       grid-template-areas: 'title user menu';
       grid-template-columns: auto max-content min-content;
       column-gap: 26px;
+    }
+
+    &__menu-list {
+      position: absolute;
+      padding: 16px 30px;
     }
 
     &__chat {
