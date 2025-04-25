@@ -73,6 +73,8 @@ const titleClass = computed(() =>
 
 @media (min-width: 768px) {
   .file-organizer {
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.08));
+
     &__wrapper {
       padding: 30px 0;
       display: block;
@@ -105,10 +107,11 @@ const titleClass = computed(() =>
       column-gap: 20px;
 
       max-height: 315px;
-      overflow-x: scroll;
+      overflow-x: auto;
+
       overflow-anchor: none;
-      scrollbar-width: 6px;
-      scrollbar-color: var(--pc-c-elements-background);
+      scrollbar-width: thin;
+      scrollbar-color: var(--pc-c-dark-gray) transparent;
 
       &::-webkit-scrollbar {
         width: 6px;
@@ -162,6 +165,7 @@ const titleClass = computed(() =>
     }
 
     &__lists {
+      padding: 0;
       display: grid;
       grid-template: auto auto / 253px;
       row-gap: 30px;

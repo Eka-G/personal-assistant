@@ -170,8 +170,8 @@ onUnmounted(() => {
     max-height: 500px;
     overflow-x: scroll;
     overflow-anchor: none;
-    scrollbar-width: 6px;
-    scrollbar-color: var(--pc-c-elements-background);
+    scrollbar-width: thin;
+    scrollbar-color: var(--pc-c-dark-gray) transparent;
 
     &::-webkit-scrollbar {
       width: 6px;
@@ -216,6 +216,7 @@ onUnmounted(() => {
     padding: 26px 23px 28px 28px;
     border-radius: 20px;
     background-color: var(--pc-c-primary-background);
+    filter: drop-shadow(0px 0px 30px rgba(0, 0, 0, 0.08));
 
     &__header {
       padding: 0 0 20px 0;
