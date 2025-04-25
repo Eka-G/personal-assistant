@@ -78,6 +78,7 @@ defineProps({
       'languages'
       'contacts'
       'socials';
+    grid-template-rows: repeat(4, 24px) 40px;
     row-gap: 20px;
   }
 
@@ -127,6 +128,7 @@ defineProps({
       grid-template-areas:
         'logo confidentiality .'
         'socials languages contacts';
+      grid-template-rows: 24px 40px;
       row-gap: 26px;
     }
 
@@ -150,6 +152,7 @@ defineProps({
 
     &__wrapper {
       grid-template-areas: 'logo confidentiality contacts languages socials';
+      grid-template-rows: 40px;
     }
 
     &__confidentiality {
